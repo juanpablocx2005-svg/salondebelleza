@@ -1,18 +1,16 @@
 // =====================================================
 // LUMIÉ BEAUTY STUDIO
-// JAVASCRIPT
 // =====================================================
 
 
-// =====================================================
-// HEADER AL HACER SCROLL
+// HEADER
 // =====================================================
 
 const header = document.getElementById("header");
 
 window.addEventListener("scroll", () => {
 
-    if (window.scrollY > 50) {
+    if (window.scrollY > 60) {
 
         header.classList.add("scrolled");
 
@@ -25,12 +23,14 @@ window.addEventListener("scroll", () => {
 });
 
 
-// =====================================================
+
 // MENÚ MÓVIL
 // =====================================================
 
 const menuBtn = document.getElementById("menuBtn");
+
 const navbar = document.getElementById("navbar");
+
 
 menuBtn.addEventListener("click", () => {
 
@@ -38,8 +38,6 @@ menuBtn.addEventListener("click", () => {
 
 });
 
-
-// Cerrar menú cuando se selecciona una opción
 
 document.querySelectorAll(".navbar a").forEach(link => {
 
@@ -52,46 +50,43 @@ document.querySelectorAll(".navbar a").forEach(link => {
 });
 
 
-// =====================================================
-// AÑO AUTOMÁTICO
-// =====================================================
 
-const year = document.getElementById("year");
-
-if (year) {
-
-    year.textContent = new Date().getFullYear();
-
-}
-
-
-// =====================================================
-// FECHA MÍNIMA PARA RESERVA
+// AÑO
 // =====================================================
 
-const dateInput = document.getElementById("date");
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+
+// FECHA MÍNIMA
+// =====================================================
+
+const dateInput =
+    document.getElementById("date");
+
 
 if (dateInput) {
 
     const today = new Date();
 
-    const yearToday = today.getFullYear();
+    const year = today.getFullYear();
 
-    const monthToday =
-        String(today.getMonth() + 1).padStart(2, "0");
+    const month =
+        String(today.getMonth() + 1)
+        .padStart(2, "0");
 
-    const dayToday =
-        String(today.getDate()).padStart(2, "0");
+    const day =
+        String(today.getDate())
+        .padStart(2, "0");
 
-    const todayFormatted =
-        `${yearToday}-${monthToday}-${dayToday}`;
-
-    dateInput.min = todayFormatted;
+    dateInput.min =
+        `${year}-${month}-${day}`;
 
 }
 
 
-// =====================================================
+
 // BOTONES DE PRECIOS
 // =====================================================
 
@@ -100,6 +95,7 @@ const priceButtons =
 
 const serviceSelect =
     document.getElementById("service");
+
 
 priceButtons.forEach(button => {
 
@@ -121,38 +117,45 @@ priceButtons.forEach(button => {
 });
 
 
-// =====================================================
-// FORMULARIO DE RESERVA
+
+// RESERVA
 // =====================================================
 
 const bookingForm =
     document.getElementById("bookingForm");
 
 
-bookingForm.addEventListener("submit", function(event) {
+bookingForm.addEventListener("submit", (event) => {
 
     event.preventDefault();
 
 
-    // DATOS
-
     const name =
-        document.getElementById("name").value.trim();
+        document.getElementById("name")
+        .value
+        .trim();
+
 
     const phone =
-        document.getElementById("phone").value.trim();
+        document.getElementById("phone")
+        .value
+        .trim();
+
 
     const service =
-        document.getElementById("service").value;
+        document.getElementById("service")
+        .value;
+
 
     const date =
-        document.getElementById("date").value;
+        document.getElementById("date")
+        .value;
+
 
     const time =
-        document.getElementById("time").value;
+        document.getElementById("time")
+        .value;
 
-
-    // VALIDACIÓN
 
     if (
         !name ||
@@ -171,10 +174,9 @@ bookingForm.addEventListener("submit", function(event) {
     }
 
 
-    // FORMATO DE FECHA
-
     const dateObject =
         new Date(`${date}T00:00:00`);
+
 
     const formattedDate =
         dateObject.toLocaleDateString(
@@ -187,17 +189,17 @@ bookingForm.addEventListener("submit", function(event) {
         );
 
 
-    // NÚMERO DE WHATSAPP
-    // CAMBIA ESTE NÚMERO POR EL DEL NEGOCIO
+    // ==========================================
+    // CAMBIAR POR EL WHATSAPP REAL DEL NEGOCIO
+    // ==========================================
 
     const whatsappNumber =
         "573000000000";
 
 
-    // MENSAJE
-
     const message =
-        `Hola Lumié Beauty Studio 👋
+
+`Hola Lumié Beauty Studio ✨
 
 Mi nombre es ${name}.
 
@@ -208,16 +210,12 @@ Quisiera solicitar una cita:
 ⏰ Hora: ${time}
 📱 Mi WhatsApp: ${phone}
 
-Quedo pendiente de la confirmación. ¡Gracias! ✨`;
+Quedo pendiente de la confirmación. ¡Muchas gracias! 💕`;
 
-
-    // URL WHATSAPP
 
     const whatsappURL =
         `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 
-
-    // ABRIR WHATSAPP
 
     window.open(
         whatsappURL,
@@ -227,20 +225,28 @@ Quedo pendiente de la confirmación. ¡Gracias! ✨`;
 });
 
 
+
+// ANIMACIONES
 // =====================================================
-// ANIMACIÓN AL APARECER
-// =====================================================
+
+const animatedElements =
+    document.querySelectorAll(
+        ".service-card, .gallery-item, .price-card, .testimonial"
+    );
+
 
 const observer =
     new IntersectionObserver(
-        (entries) => {
+        entries => {
 
             entries.forEach(entry => {
 
                 if (entry.isIntersecting) {
 
-                    entry.target.classList.add(
-                        "visible"
+                    entry.target.classList.add("show");
+
+                    observer.unobserve(
+                        entry.target
                     );
 
                 }
@@ -249,50 +255,51 @@ const observer =
 
         },
         {
-            threshold: 0.12
+            threshold: .12
         }
     );
 
 
-document
-    .querySelectorAll(
-        ".service-card, .price-card, .testimonial, .gallery-item"
-    )
-    .forEach(element => {
+animatedElements.forEach(element => {
 
-        element.style.opacity = "0";
+    element.classList.add("hidden");
 
-        element.style.transform =
-            "translateY(25px)";
+    observer.observe(element);
 
-        element.style.transition =
-            "opacity .7s ease, transform .7s ease";
-
-        observer.observe(element);
-
-    });
+});
 
 
-// =====================================================
-// ESTILOS PARA ELEMENTOS VISIBLES
+
+// ESTILOS DE ANIMACIÓN
 // =====================================================
 
-const animationStyle =
+const animationCSS =
     document.createElement("style");
 
-animationStyle.textContent = `
 
-    .service-card.visible,
-    .price-card.visible,
-    .testimonial.visible,
-    .gallery-item.visible {
+animationCSS.innerHTML = `
 
-        opacity: 1 !important;
+.hidden {
 
-        transform: translateY(0) !important;
+    opacity: 0;
 
-    }
+    transform: translateY(35px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s ease;
+
+}
+
+.show {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+}
 
 `;
 
-document.head.appendChild(animationStyle);
+
+document.head.appendChild(animationCSS);
